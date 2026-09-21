@@ -1,6 +1,6 @@
 # Flores amarillas — 21 de septiembre
 
-Sitio web estático listo para compartir. No usa dependencias, servidores, fuentes externas ni archivos remotos: todo funciona con `index.html`, `style.css` y `script.js`.
+Sitio web estático listo para compartir. No usa dependencias, servidores, fuentes externas ni archivos remotos: todo funciona con `index.html`, `style.css`, `script.js` y el archivo local `flores-amarillas.mp3`.
 
 ## Probarlo
 
@@ -33,4 +33,4 @@ Abre `index.html` con cualquier navegador moderno. Para probar el botón de comp
 - Colores: cambia las variables al inicio de `style.css`.
 - Firma: busca `by JOEL A` al final de `index.html`.
 
-La música ambiental se genera en el navegador y solo comienza cuando la persona toca el botón **Música**, por lo que cumple las restricciones de reproducción automática.
+La canción incluida solo comienza cuando la persona toca el botón **Música**, por lo que cumple las restricciones de reproducción automática.

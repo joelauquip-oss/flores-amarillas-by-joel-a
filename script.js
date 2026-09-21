@@ -107,53 +107,28 @@ document.querySelectorAll('.dot').forEach((dot, index) => {
   });
 });
 
-let audioContext;
-let musicTimer;
-let noteIndex = 0;
-const melody = [261.63, 329.63, 392, 523.25, 440, 392, 329.63, 293.66];
-
-function playNote(frequency) {
-  if (!audioContext) return;
-  const now = audioContext.currentTime;
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = noteIndex % 3 === 0 ? 'sine' : 'triangle';
-  oscillator.frequency.setValueAtTime(frequency, now);
-  gain.gain.setValueAtTime(.0001, now);
-  gain.gain.exponentialRampToValueAtTime(.035, now + .08);
-  gain.gain.exponentialRampToValueAtTime(.0001, now + 1.35);
-  oscillator.connect(gain).connect(audioContext.destination);
-  oscillator.start(now);
-  oscillator.stop(now + 1.4);
-}
+const song = new Audio('flores-amarillas.mp3');
+song.loop = true;
+song.preload = 'metadata';
+song.volume = .58;
 
 async function toggleMusic() {
   const isPlaying = soundButton.getAttribute('aria-pressed') === 'true';
   if (isPlaying) {
-    clearInterval(musicTimer);
-    if (audioContext) await audioContext.close();
-    audioContext = null;
+    song.pause();
     soundButton.setAttribute('aria-pressed', 'false');
     soundButton.setAttribute('aria-label', 'Reproducir música ambiental');
     $('.sound-label').textContent = 'Música';
     return;
   }
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) {
-    $('.sound-label').textContent = 'No disponible';
-    return;
+  try {
+    await song.play();
+    soundButton.setAttribute('aria-pressed', 'true');
+    soundButton.setAttribute('aria-label', 'Pausar música ambiental');
+    $('.sound-label').textContent = 'Pausar';
+  } catch (error) {
+    $('.sound-label').textContent = 'Intenta otra vez';
   }
-  audioContext = new AudioContext();
-  await audioContext.resume();
-  noteIndex = 0;
-  playNote(melody[noteIndex]);
-  musicTimer = setInterval(() => {
-    noteIndex = (noteIndex + 1) % melody.length;
-    playNote(melody[noteIndex]);
-  }, 760);
-  soundButton.setAttribute('aria-pressed', 'true');
-  soundButton.setAttribute('aria-label', 'Pausar música ambiental');
-  $('.sound-label').textContent = 'Pausar';
 }
 
 async function sharePage() {
